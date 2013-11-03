@@ -1,6 +1,6 @@
 Twitterfeed::Application.routes.draw do
 
   root :to => "tweets#index"
-  resources :tweets
+  get '/tweets' => "tweets#tweets"
 
 end

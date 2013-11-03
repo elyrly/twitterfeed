@@ -1,3 +1,47 @@
 <h1>Twitter Feed</h1>
 
-<%= @query %>
+<form>
+  <input id= "search_term" type= "text" name="s">
+  <input type= "submit">
+</form>
+
+<div id="results"> </div> <!-- this line paras the results  -->
+
+<script>
+
+$(function(){
+  $('form').on('submit', function(event){
+    event.preventDefault();
+
+    var query = $('#search_term').val(); //grabs search parameters
+
+    var tweet_call = $.ajax({
+      url: "../tweets",
+      type: "get",
+      data: {s: query}
+    });
+
+    $('#results').html("");
+
+     tweet_call.done(function(data){ //promises in jquery
+              for (var i = 0; i < data.length; i++ ){
+                //console.log(data[i]["name"]);
+                var item = "<li>"+data[i]["name"] + "--" +data[i]["text"]+ "</li>";
+                $('#results').append(item);
+              };
+         });
+
+    $('#search_term').val(""); //clear the search box
+
+
+
+  });
+});
+
+
+
+
+
+
+</script>
+

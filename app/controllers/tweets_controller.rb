@@ -1,7 +1,21 @@
 class TweetsController < ApplicationController
 
   def index
-    @query = Twitter.search("justin", :count => 3, :result_type => "recent", :lang => 'en').results.first.text
+  end
+
+  def tweets
+
+    @search_parameter = params[:s]
+    @twitter = Twitter.search(@search_parameter, :result_type => "recent", :lang => 'en')[:statuses]
+
+    @data_info = @twitter.map do |tweet|
+      {:name => tweet[:user][:screen_name],
+        :text => tweet[:text]
+      }
+    end
+
+    render :json => @data_info
+
   end
 
 end
